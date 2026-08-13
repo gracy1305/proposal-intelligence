@@ -302,7 +302,7 @@ pip install -r intelligence/requirements.txt
 From the `intelligence` directory:
 
 ```bash
-uvicorn main:app --reload --port 8001
+python -m uvicorn main:app --reload --port 8001
 ```
 
 The API will run locally at:
@@ -403,7 +403,7 @@ The larger opportunity is to build a reliability layer between automated venue s
 
 This is an independent product and engineering exploration inspired by AI-powered venue sourcing workflows.
 
-The core extraction, completeness scoring, SLA-risk logic, API, and frontend workflows are implemented. The project is intended as a technical prototype rather than a production system.
+The core proposal extraction, completeness scoring, SLA-risk logic, API, and frontend workflows are implemented. The repository is intended as a technical prototype and product exploration rather than a production-ready sourcing system.
 
 ---
 
