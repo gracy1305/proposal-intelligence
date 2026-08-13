@@ -139,7 +139,7 @@ def extract_proposal_fields(text: str) -> dict:
         "meeting_space": [
             r"(?:meeting\s*space|event\s*space)"
             r"\s*(?:includes?|is|of|:|-)?\s*"
-            r"([^.;]+)",
+            r"([^\n.;]+)",
         ],
 
         "fnb_minimum": [
