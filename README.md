@@ -87,9 +87,12 @@ The analysis workflow converts unstructured proposal text into structured fields
 
 Proposal details show extracted terms, missing fields, confidence indicators, and recommended next actions.
 
-> <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/6b2dae5d-98c4-4b3a-8a0b-e15d4f9d2423" />
-> <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/241f2920-d256-41c9-ba0d-7ed6293e4d6d" />
-> <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/724be5ca-76f3-4dce-8254-a00994746a06" />
+> <img width="1885" height="872" alt="image" src="https://github.com/user-attachments/assets/e7fc5a54-f22d-4313-b7e7-e7f14f56b009" />
+
+> <img width="1323" height="877" alt="image" src="https://github.com/user-attachments/assets/6183e9fc-0f9c-42b9-979f-7d716b39e27e" />
+
+> <img width="1339" height="774" alt="image" src="https://github.com/user-attachments/assets/3414fe22-27ac-4190-adcc-872154a2f1de" />
+
 > <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/0d51166d-a035-4a8d-ab56-81f9b868e78c" />
 
 
