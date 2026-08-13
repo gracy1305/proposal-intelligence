@@ -42,6 +42,10 @@ export default function AnalyzeProposalPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const API_URL =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://proposal-intelligence-api.onrender.com";
+
   async function analyzeProposal() {
     if (!proposalText.trim()) {
       setError("Paste proposal text before analyzing.");
@@ -54,7 +58,7 @@ export default function AnalyzeProposalPage() {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/analyze/proposal`,
+        `${API_URL}/analyze/proposal`,
         {
           method: "POST",
           headers: {
