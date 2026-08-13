@@ -210,5 +210,4 @@ for pattern in concession_patterns:
     if match:
         extracted["concessions"] = match.group(1).strip()
         break
-
-return extracted
+        return extracted
