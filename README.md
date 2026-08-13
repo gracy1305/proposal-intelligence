@@ -79,22 +79,21 @@ Instead of simply showing data, the goal is to answer:
 
 The main pipeline provides an overview of the active sourcing event, proposal responses, SLA status, and items requiring attention.
 
+> <img width="1885" height="872" alt="image" src="https://github.com/user-attachments/assets/e7fc5a54-f22d-4313-b7e7-e7f14f56b009" />
+
 ### Proposal Analysis
 
 The analysis workflow converts unstructured proposal text into structured fields and evaluates proposal completeness.
+
+> <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/0d51166d-a035-4a8d-ab56-81f9b868e78c" />
 
 ### Proposal Assessment
 
 Proposal details show extracted terms, missing fields, confidence indicators, and recommended next actions.
 
-> <img width="1885" height="872" alt="image" src="https://github.com/user-attachments/assets/e7fc5a54-f22d-4313-b7e7-e7f14f56b009" />
-
 > <img width="1323" height="877" alt="image" src="https://github.com/user-attachments/assets/6183e9fc-0f9c-42b9-979f-7d716b39e27e" />
 
 > <img width="1339" height="774" alt="image" src="https://github.com/user-attachments/assets/3414fe22-27ac-4190-adcc-872154a2f1de" />
-
-> <img width="970" height="871" alt="image" src="https://github.com/user-attachments/assets/0d51166d-a035-4a8d-ab56-81f9b868e78c" />
-
 
 
 ---
