@@ -188,27 +188,27 @@ def extract_proposal_fields(text: str) -> dict:
             break
 
     # Deposit schedule
-    deposit_patterns = [
-        r"((?:A\s+)?\d+(?:\.\d+)?%\s+deposit\s+[^.]+\.?)",
-        r"(Deposit(?:\s+schedule|\s+terms)?\s*(?:is|are|:|-)?\s*[^.]+\.?)",
-    ]
+deposit_patterns = [
+    r"((?:A\s+)?\d+(?:\.\d+)?%\s+deposit\s+[^\n.]+\.?)",
+    r"(Deposit(?:\s+schedule|\s+terms)?\s*(?:is|are|:|-)?\s*[^\n.]+\.?)",
+]
 
-    for pattern in deposit_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            extracted["deposit_schedule"] = match.group(1).strip()
-            break
+for pattern in deposit_patterns:
+    match = re.search(pattern, text, re.IGNORECASE)
+    if match:
+        extracted["deposit_schedule"] = match.group(1).strip()
+        break
 
-    # Concessions
-    concession_patterns = [
-        r"((?:Complimentary|Free|Included)\s+[^.]+(?:included|provided|offered)[^.]*\.?)",
-        r"(Concessions?\s*(?:include|are|:|-)?\s*[^.]+\.?)",
-    ]
+# Concessions
+concession_patterns = [
+    r"((?:Complimentary|Free|Included)\s+[^\n.]+(?:included|provided|offered)[^\n.]*\.?)",
+    r"(Concessions?\s*(?:include|are|:|-)?\s*[^\n.]+\.?)",
+]
 
-    for pattern in concession_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            extracted["concessions"] = match.group(1).strip()
-            break
+for pattern in concession_patterns:
+    match = re.search(pattern, text, re.IGNORECASE)
+    if match:
+        extracted["concessions"] = match.group(1).strip()
+        break
 
     return extracted
