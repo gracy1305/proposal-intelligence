@@ -105,6 +105,8 @@ import re
 def extract_proposal_fields(text: str) -> dict:
     """
     Extract common hotel proposal terms from unstructured proposal text.
+    Uses flexible deterministic regex patterns so the scoring remains
+    explainable and auditable.
     """
 
     extracted = {
@@ -120,33 +122,48 @@ def extract_proposal_fields(text: str) -> dict:
         "expiration_date": None,
     }
 
+    # Simple commercial fields
     patterns = {
         "room_rate": [
-            r"(?:guest\s*room\s*rate|room\s*rate|nightly\s*rate)\s*[:\-]?\s*(\$[\d,]+(?:\.\d{2})?(?:\s*(?:per night|\/night))?)",
+            r"(?:guest\s*room\s*rate|room\s*rate|nightly\s*rate)"
+            r"\s*(?:is|of|at|:|-)?\s*"
+            r"(\$[\d,]+(?:\.\d{1,2})?(?:\s*(?:per night|/night))?)",
         ],
 
         "room_block": [
-            r"(?:room\s*block|guest\s*rooms?)\s*[:\-]?\s*(\d+\s*(?:rooms?)?)",
+            r"(?:room\s*block|guest\s*room\s*block)"
+            r"\s*(?:is|of|at|:|-)?\s*(\d+\s*rooms?)",
+            r"(?:block\s+of)\s*(\d+\s*rooms?)",
         ],
 
         "meeting_space": [
-            r"(?:meeting\s*space|event\s*space)\s*[:\-]?\s*([\d,]+\s*(?:sq\.?\s*ft|square\s*feet))",
+            r"(?:meeting\s*space|event\s*space)"
+            r"\s*(?:includes?|is|of|:|-)?\s*"
+            r"([^.;]+)",
         ],
 
         "fnb_minimum": [
-            r"(?:food\s*(?:&|and)\s*beverage\s*minimum|f&b\s*minimum)\s*[:\-]?\s*(\$[\d,]+(?:\.\d{2})?)",
+            r"(?:food\s*(?:&|and)\s*beverage\s*minimum|f&b\s*minimum|fnb\s*minimum)"
+            r"\s*(?:is|of|at|:|-)?\s*"
+            r"(\$[\d,]+(?:\.\d{1,2})?)",
         ],
 
         "resort_fee": [
-            r"(?:resort\s*fee|destination\s*fee)\s*[:\-]?\s*(\$[\d,]+(?:\.\d{2})?(?:\s*(?:per room|per night|\/night))?)",
+            r"(?:resort\s*fee|destination\s*fee)"
+            r"\s*(?:is|of|at|:|-)?\s*"
+            r"(\$[\d,]+(?:\.\d{1,2})?(?:\s*per\s+(?:room|night)(?:\s*per\s*night)?)?)",
         ],
 
         "av_minimum": [
-            r"(?:av\s*minimum|a\/v\s*minimum|audio\s*visual\s*minimum)\s*[:\-]?\s*(\$[\d,]+(?:\.\d{2})?)",
+            r"(?:av\s*minimum|a/v\s*minimum|audio[\s-]*visual\s*minimum)"
+            r"\s*(?:is|of|at|:|-)?\s*"
+            r"(\$[\d,]+(?:\.\d{1,2})?)",
         ],
 
         "expiration_date": [
-            r"(?:proposal\s*(?:expires|expiration)|valid\s*until)\s*[:\-]?\s*([A-Za-z]+\s+\d{1,2},?\s+\d{4})",
+            r"(?:proposal\s*)?(?:expires?|expiration(?:\s*date)?|valid\s*until)"
+            r"\s*(?:is|on|:|-)?\s*"
+            r"([A-Za-z]+\s+\d{1,2},?\s+\d{4})",
         ],
     }
 
@@ -158,31 +175,40 @@ def extract_proposal_fields(text: str) -> dict:
                 extracted[field] = match.group(1).strip()
                 break
 
-    cancellation_match = re.search(
-        r"(cancellation(?:\s+terms|\s+policy)?\s*[:\-]\s*[^\n]+)",
-        text,
-        re.IGNORECASE,
-    )
+    # Cancellation terms
+    cancellation_patterns = [
+        r"(Cancellation\s+(?:is|terms?\s*(?:are|:)?|policy\s*(?:is|:)?)\s*[^.]+\.?)",
+        r"(Cancellation[^.]+\.?)",
+    ]
 
-    if cancellation_match:
-        extracted["cancellation_terms"] = cancellation_match.group(1).strip()
+    for pattern in cancellation_patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            extracted["cancellation_terms"] = match.group(1).strip()
+            break
 
-    deposit_match = re.search(
-        r"(deposit(?:\s+schedule|\s+terms)?\s*[:\-]\s*[^\n]+)",
-        text,
-        re.IGNORECASE,
-    )
+    # Deposit schedule
+    deposit_patterns = [
+        r"((?:A\s+)?\d+(?:\.\d+)?%\s+deposit\s+[^.]+\.?)",
+        r"(Deposit(?:\s+schedule|\s+terms)?\s*(?:is|are|:|-)?\s*[^.]+\.?)",
+    ]
 
-    if deposit_match:
-        extracted["deposit_schedule"] = deposit_match.group(1).strip()
+    for pattern in deposit_patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            extracted["deposit_schedule"] = match.group(1).strip()
+            break
 
-    concession_match = re.search(
-        r"(concessions?\s*[:\-]\s*[^\n]+)",
-        text,
-        re.IGNORECASE,
-    )
+    # Concessions
+    concession_patterns = [
+        r"((?:Complimentary|Free|Included)\s+[^.]+(?:included|provided|offered)[^.]*\.?)",
+        r"(Concessions?\s*(?:include|are|:|-)?\s*[^.]+\.?)",
+    ]
 
-    if concession_match:
-        extracted["concessions"] = concession_match.group(1).strip()
+    for pattern in concession_patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            extracted["concessions"] = match.group(1).strip()
+            break
 
     return extracted
